@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 class TohState:
     """Class representing the TOH MDP State.
 
-    A TOH (Towers of Hanoi) MDP (Markov Diagram Process) state is the disks on each of the 3 pegs. The tuple for each peg
+    A TOH MDP state is the disks on each of the 3 pegs. The tuple for each peg
     represents the disks from bottom to top.
     """
     peg1: Tuple[int, ...]
@@ -264,7 +264,6 @@ class TohMdp:
                 return 10.0
             else:
                 return 0.0
-        
         return self.config.living_reward
 
     def make_solution_path(self, path_type: str) -> List[TohState]:
@@ -344,7 +343,6 @@ class TohMdp:
                            for new_state in new_states]
         assert math.isclose(sum(new_state_probs), 1.0)
         new_state = self.rng.choices(new_states, new_state_probs)[0]
-
         return new_state, self.reward(state, action, new_state)
 
 

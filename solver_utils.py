@@ -33,9 +33,8 @@ def value_iteration(
     # noinspection PyUnusedLocal
     max_delta = 0.0
     # *** BEGIN OF YOUR CODE ***
-
     for state in mdp.nonterminal_states:
-        new_v = 0.0
+        new_v = float("-inf")
 
         for action in mdp.actions:
             new_q = 0.0
@@ -44,11 +43,8 @@ def value_iteration(
                 t_value = mdp.transition(state, action, next_state)
                 reward = mdp.reward(state, action, next_state)
 
-                new_q += t_value * (reward + v_table[next_state])
-                # print("STATE STUFF --=-=-==-=-==")
-                # print(f"{t_value} * ({reward} + {v_table[next_state]}) = {new_q}")
-                # print(state)
-                # print(next_state)
+                # change tha gamma
+                new_q += t_value * (reward + (mdp.config.gamma * v_table[next_state]))
             
             new_v = max(new_v, new_q)
             q_table[(state, action)] = new_q
