@@ -33,9 +33,32 @@ def value_iteration(
     # noinspection PyUnusedLocal
     max_delta = 0.0
     # *** BEGIN OF YOUR CODE ***
+
+    for state in mdp.nonterminal_states:
+        new_v = 0.0
+
+        for action in mdp.actions:
+            new_q = 0.0
+
+            for next_state in mdp.all_states:
+                t_value = mdp.transition(state, action, next_state)
+                reward = mdp.reward(state, action, next_state)
+
+                new_q += t_value * (reward + v_table[next_state])
+                # print("STATE STUFF --=-=-==-=-==")
+                # print(f"{t_value} * ({reward} + {v_table[next_state]}) = {new_q}")
+                # print(state)
+                # print(next_state)
+            
+            new_v = max(new_v, new_q)
+            q_table[(state, action)] = new_q
+
+        # Update the value table for the current state
+        new_v_table[state] = new_v
+        max_delta = max(max_delta, abs(new_v - v_table[state]))
+    
     # ***  END OF YOUR CODE  ***
     return new_v_table, q_table, max_delta
-
 
 def extract_policy(
         mdp: tm.TohMdp, q_table: tm.QTable
