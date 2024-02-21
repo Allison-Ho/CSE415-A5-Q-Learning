@@ -43,7 +43,6 @@ def value_iteration(
                 t_value = mdp.transition(state, action, next_state)
                 reward = mdp.reward(state, action, next_state)
 
-                # change tha gamma
                 new_q += t_value * (reward + (mdp.config.gamma * v_table[next_state]))
             
             new_v = max(new_v, new_q)
@@ -115,7 +114,20 @@ def extract_v_table(mdp: tm.TohMdp, q_table: tm.QTable) -> tm.VTable:
             The extracted value table.
     """
     # *** BEGIN OF YOUR CODE ***
+    v_table: tm.VTable = {} # new v table
+    
+    for state in mdp.all_states:
+        maxval = float("-inf")
 
+        for action in mdp.actions:
+            try:
+                q = q_table[(state, action)]
+                maxval = max(q, maxval)
+            except: pass
+        
+        v_table[state] = maxval
+
+    return v_table
 
 def choose_next_action(
         mdp: tm.TohMdp, state: tm.TohState, epsilon: float, q_table: tm.QTable,
