@@ -35,7 +35,7 @@ def value_iteration(
     # *** BEGIN OF YOUR CODE ***
 
     for state in mdp.nonterminal_states:
-        new_v = float("-inf")
+        new_v = 0.0
 
         for action in mdp.actions:
             new_q = 0.0
@@ -45,10 +45,10 @@ def value_iteration(
                 reward = mdp.reward(state, action, next_state)
 
                 new_q += t_value * (reward + v_table[next_state])
-                print("STATE STUFF --=-=-==-=-==")
-                print(f"{t_value} * ({reward} + {v_table[next_state]}) = {new_q}")
-                print(state)
-                print(next_state)
+                # print("STATE STUFF --=-=-==-=-==")
+                # print(f"{t_value} * ({reward} + {v_table[next_state]}) = {new_q}")
+                # print(state)
+                # print(next_state)
             
             new_v = max(new_v, new_q)
             q_table[(state, action)] = new_q
