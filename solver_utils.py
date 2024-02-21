@@ -116,6 +116,8 @@ def extract_v_table(mdp: tm.TohMdp, q_table: tm.QTable) -> tm.VTable:
     # *** BEGIN OF YOUR CODE ***
     v_table: tm.VTable = {} # new v table
     
+    # all we need to do is look at all state, all possible actions, and get the highest
+    # possible q_value (the optimal decision at state)
     for state in mdp.all_states:
         maxval = float("-inf")
 
