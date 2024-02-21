@@ -40,6 +40,7 @@ def value_iteration(
             new_q = 0.0
 
             for next_state in mdp.all_states:
+                # Bellman Equations
                 t_value = mdp.transition(state, action, next_state)
                 reward = mdp.reward(state, action, next_state)
 
