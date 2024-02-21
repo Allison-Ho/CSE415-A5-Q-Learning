@@ -54,7 +54,15 @@ def extract_policy(
         policy: tm.Policy
             A Policy maps nonterminal states to actions.
     """
-    # *** BEGIN OF YOUR CODE ***
+    policy = {}
+
+    # for each nonterminal state
+    # find the best action by comparing the current possible actions of a state to
+    # find the one with the highest q_value
+    for state in mdp.nonterminal_states:
+        policy[state] = max(mdp.actions, key=lambda action: q_table.get((state, action), 0))
+
+    return policy
 
 
 def q_update(
