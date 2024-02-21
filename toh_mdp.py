@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 class TohState:
     """Class representing the TOH MDP State.
 
-    A TOH MDP state is the disks on each of the 3 pegs. The tuple for each peg
+    A TOH (Towers of Hanoi) MDP (Markov Diagram Process) state is the disks on each of the 3 pegs. The tuple for each peg
     represents the disks from bottom to top.
     """
     peg1: Tuple[int, ...]

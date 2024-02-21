@@ -32,10 +32,41 @@ def value_iteration(
     q_table: tm.QTable = {}
     # noinspection PyUnusedLocal
     max_delta = 0.0
+
     # *** BEGIN OF YOUR CODE ***
+    for state in mdp.nonterminal_states:
+        # Initialize the value for the current state
+        new_v = 0.0
+
+        if mdp.is_goal(state):
+            state_reward = mdp.reward(state, "Exit", mdp.terminal)
+            print("GOAL STATE REACHED")
+            print(state_reward)
+            q_table[(state, "Exit")] = state_reward
+            new_v = max(new_v, state_reward)
+            
+        else:
+            applicable_ops = [o for o in mdp.operators if o.pre_condition(state)]
+            print(applicable_ops)
+
+            # Iterate over all possible actions in the current state
+            for move in applicable_ops:
+                # get the reward for taking the action
+                next_state = state.move(from_peg=move.from_peg, to_peg=move.to_peg)
+                action = move.name
+
+                state_reward = mdp.reward(state, action, next_state)
+                q_table[(state, action)] = state_reward
+                new_v = max(new_v, state_reward)
+
+        # Calculate the maximum absolute difference for value updates
+        max_delta = max(max_delta, abs(new_v - v_table.get(state, 0)))
+
+        # Update the value table for the current state
+        new_v_table[state] = new_v
+
     # ***  END OF YOUR CODE  ***
     return new_v_table, q_table, max_delta
-
 
 def extract_policy(
         mdp: tm.TohMdp, q_table: tm.QTable
