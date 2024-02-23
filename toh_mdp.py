@@ -264,7 +264,7 @@ class TohMdp:
                 return 10.0
             else:
                 return 0.0
-        
+
         return self.config.living_reward
 
     def make_solution_path(self, path_type: str) -> List[TohState]:

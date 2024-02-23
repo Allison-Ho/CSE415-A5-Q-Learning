@@ -49,14 +49,14 @@ def value_iteration(
                 # print(f"{t_value} * ({reward} + {v_table[next_state]}) = {new_q}")
                 # print(state)
                 # print(next_state)
-            
+
             new_v = max(new_v, new_q)
             q_table[(state, action)] = new_q
 
         # Update the value table for the current state
         new_v_table[state] = new_v
         max_delta = max(max_delta, abs(new_v - v_table[state]))
-    
+
     # ***  END OF YOUR CODE  ***
     return new_v_table, q_table, max_delta
 
@@ -105,6 +105,21 @@ def q_update(
     """
     state, action, reward, next_state = transition
     # *** BEGIN OF YOUR CODE ***
+
+    # access curr q_value for the state
+    current_q = q_table[state, action]
+
+    max_next_q = float('-inf')
+
+    # Calculate max q-value for next state with all possible actions
+    for pos_action in mdp.actions:
+        max_next_q = max(q_table.get((next_state, pos_action), 0), max_next_q)
+
+    # find new q
+    new_q = current_q + alpha * (reward + mdp.config.gamma * max_next_q - current_q)
+
+    # update table
+    q_table[state, action] = new_q
 
 
 def extract_v_table(mdp: tm.TohMdp, q_table: tm.QTable) -> tm.VTable:
