@@ -124,6 +124,7 @@ def extract_v_table(mdp: tm.TohMdp, q_table: tm.QTable) -> tm.VTable:
 
         for action in mdp.actions:
             try:
+                # at times the key doesn't exist
                 q = q_table[(state, action)]
                 maxval = max(q, maxval)
             except: pass
@@ -163,6 +164,21 @@ def choose_next_action(
             The chosen action.
     """
     # *** BEGIN OF YOUR CODE ***
+    # epsilon == willingness to try new routes
+    # (1 - epsilon) == willingness to play it safe
+    state_keys = [key for key in q_table.keys() if key[0] == state] # state_keys for current state
+    q_values = [q_table[key] for key in state_keys] # q values for each state
+    max_q_value = max(q_values) # max q value for state
+
+    # Extract all actions with the maximum Q-value
+    best_moves = [key[1] for key in state_keys if q_table[key] == max_q_value]
+
+    e = epsilon_greedy(best_moves, epsilon)
+
+    # do q update here
+
+    return e
+    
 
 
 def custom_epsilon(n_step: int) -> float:
