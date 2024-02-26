@@ -4,6 +4,7 @@ from typing import Tuple, Callable, List
 
 import toh_mdp as tm
 
+NSTEP = 0
 
 def value_iteration(
         mdp: tm.TohMdp, v_table: tm.VTable
@@ -52,7 +53,7 @@ def value_iteration(
         # Update the value table for the current state
         new_v_table[state] = new_v
         max_delta = max(max_delta, abs(new_v - v_table[state]))
-    
+
     # ***  END OF YOUR CODE  ***
     return new_v_table, q_table, max_delta
 
@@ -101,6 +102,21 @@ def q_update(
     """
     state, action, reward, next_state = transition
     # *** BEGIN OF YOUR CODE ***
+
+    # access curr q_value for the state
+    current_q = q_table[state, action]
+
+    max_next_q = float('-inf')
+
+    # Calculate max q-value for next state with all possible actions
+    for pos_action in mdp.actions:
+        max_next_q = max(q_table.get((next_state, pos_action), 0), max_next_q)
+
+    # find new q
+    new_q = current_q + alpha * (reward + mdp.config.gamma * max_next_q - current_q)
+
+    # update table
+    q_table[state, action] = new_q
 
 
 def extract_v_table(mdp: tm.TohMdp, q_table: tm.QTable) -> tm.VTable:
@@ -164,6 +180,7 @@ def choose_next_action(
             The chosen action.
     """
     # *** BEGIN OF YOUR CODE ***
+    global NSTEP
     # epsilon == willingness to try new routes
     # (1 - epsilon) == willingness to play it safe
     state_keys = [key for key in q_table.keys() if key[0] == state] # state_keys for current state
@@ -174,8 +191,13 @@ def choose_next_action(
     best_moves = [key[1] for key in state_keys if q_table[key] == max_q_value]
 
     e = epsilon_greedy(best_moves, epsilon)
+    # alpha = custom_alpha(10)
 
+    # trans = (state, e, )
     # do q update here
+    # q_update(mdp, q_table, trans, alpha)
+
+    # NSTEP += 1
 
     return e
     
@@ -209,3 +231,5 @@ def custom_alpha(n_step: int) -> float:
             alpha value when performing the nth Q update.
     """
     # *** BEGIN OF YOUR CODE ***
+    alpha = 1.0 / NSTEP if NSTEP > 0 else 1.0  # To avoid division by zero for the first step
+    return alpha
