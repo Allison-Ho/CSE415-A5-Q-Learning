@@ -4,8 +4,6 @@ from typing import Tuple, Callable, List
 
 import toh_mdp as tm
 
-NSTEP = 0
-
 def value_iteration(
         mdp: tm.TohMdp, v_table: tm.VTable
 ) -> Tuple[tm.VTable, tm.QTable, float]:
@@ -180,7 +178,6 @@ def choose_next_action(
             The chosen action.
     """
     # *** BEGIN OF YOUR CODE ***
-    global NSTEP
     # epsilon == willingness to try new routes
     # (1 - epsilon) == willingness to play it safe
     state_keys = [key for key in q_table.keys() if key[0] == state] # state_keys for current state
@@ -191,13 +188,7 @@ def choose_next_action(
     best_moves = [key[1] for key in state_keys if q_table[key] == max_q_value]
 
     e = epsilon_greedy(best_moves, epsilon)
-    # alpha = custom_alpha(10)
-
-    # trans = (state, e, )
-    # do q update here
-    # q_update(mdp, q_table, trans, alpha)
-
-    # NSTEP += 1
+    
 
     return e
     
@@ -231,5 +222,5 @@ def custom_alpha(n_step: int) -> float:
             alpha value when performing the nth Q update.
     """
     # *** BEGIN OF YOUR CODE ***
-    alpha = 1.0 / NSTEP if NSTEP > 0 else 1.0  # To avoid division by zero for the first step
+    alpha = 1.0 / n_step if n_step > 0 else 1.0  # To avoid division by zero for the first step
     return alpha
