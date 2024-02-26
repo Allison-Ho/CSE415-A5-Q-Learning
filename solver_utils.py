@@ -44,7 +44,7 @@ def value_iteration(
                 reward = mdp.reward(state, action, next_state)
 
                 new_q += t_value * (reward + (mdp.config.gamma * v_table[next_state]))
-            
+
             new_v = max(new_v, new_q)
             q_table[(state, action)] = new_q
 
@@ -130,7 +130,7 @@ def extract_v_table(mdp: tm.TohMdp, q_table: tm.QTable) -> tm.VTable:
     """
     # *** BEGIN OF YOUR CODE ***
     v_table: tm.VTable = {} # new v table
-    
+
     # all we need to do is look at all state, all possible actions, and get the highest
     # possible q_value (the optimal decision at state)
     for state in mdp.all_states:
@@ -142,7 +142,7 @@ def extract_v_table(mdp: tm.TohMdp, q_table: tm.QTable) -> tm.VTable:
                 q = q_table[(state, action)]
                 maxval = max(q, maxval)
             except: pass
-        
+
         v_table[state] = maxval
 
     return v_table
@@ -191,7 +191,7 @@ def choose_next_action(
     
 
     return e
-    
+
 
 
 def custom_epsilon(n_step: int) -> float:
@@ -207,6 +207,11 @@ def custom_epsilon(n_step: int) -> float:
             epsilon value when choosing the nth step.
     """
     # *** BEGIN OF YOUR CODE ***
+
+    # idk why we need to add n_step here because the GLIE slides only talks about the decay
+    # func (1.0 / n_step) but in his slide, the exploration func = u + k/n and i have no
+    # idea what u is so i just add the one variable i have access in this function and it works???
+    return n_step + 1.0 / n_step
 
 
 def custom_alpha(n_step: int) -> float:
