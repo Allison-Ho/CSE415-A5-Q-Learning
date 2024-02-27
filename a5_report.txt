@@ -1,6 +1,6 @@
-Name: John Doe
-Student ID: 1111111
-Email: johndoe@uw.edu
+Name: Marina Wooden, Allison Ho
+Student ID: 2033323, [ALLISON PUT YOUR NUMBER DONT REPEAT THE CAREER FAIR]
+Email: mwoode@uw.edu, qnho@uw.edu
 
 1. In the context of the Towers-of-Hanoi World MDP, explain how the Value Iteration algorithm uses the Bellman equations to iteratively compute the value table. (5 points)
 
