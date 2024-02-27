@@ -4,6 +4,15 @@ Email: johndoe@uw.edu
 
 1. In the context of the Towers-of-Hanoi World MDP, explain how the Value Iteration algorithm uses the Bellman equations to iteratively compute the value table. (5 points)
 
+The value iteration algorithm uses Bellman equations to update optimal values for states, which are stored in the v_table.  It calculates the best estimate for the value of
+each state by considering the rewards for all possible actions and selecting the highest one to gradually improve the accuracy of value predictions.
+
 2. How did you decide your custom epsilon function? What thoughts went into that and what would you change to further optimize your exploration? If your function was strong, explain why. (5 points)
 
+
+
 3. What is another exploration strategy other than epsilon-greedy that you believe would fit well with the Towers of Hanoi formulation? Why? (5 points)
+
+We though that count-based exploration might work well here.  We noticed that none of the golden paths included revisited states,
+so we figured that we could use a strategy that incentivizes exploring unvisited states rather than exploiting known states to achieve the
+golden path in less steps.
