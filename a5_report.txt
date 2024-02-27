@@ -1,5 +1,5 @@
 Name: Marina Wooden, Allison Ho
-Student ID: 2033323, [ALLISON PUT YOUR NUMBER DONT REPEAT THE CAREER FAIR]
+Student ID: 2033323, 2175890
 Email: mwoode@uw.edu, qnho@uw.edu
 
 1. In the context of the Towers-of-Hanoi World MDP, explain how the Value Iteration algorithm uses the Bellman equations to iteratively compute the value table. (5 points)
@@ -9,6 +9,10 @@ each state by considering the rewards for all possible actions and selecting the
 
 2. How did you decide your custom epsilon function? What thoughts went into that and what would you change to further optimize your exploration? If your function was strong, explain why. (5 points)
 
+Based on GLIE, in order to prevent infinite exploration of all state-action pairs, I use 1.0 / n_step to introduce exploration that will eventually converges as the numbere of steps increases.
+Additionally, I add n_step to my custom epsilon so I can have my agent still exploring the environment but make sure that it will shift from exploration to exploitation as n_step increases(
+n_step small = large epsilon, larger n_step = smaller epsilon). To further optimize my exploration function, we think we can also take into account the learning progress or the environment in
+our decay strategy for epsilon so that it can better balance the exploration vs exploitation rate.
 
 
 3. What is another exploration strategy other than epsilon-greedy that you believe would fit well with the Towers of Hanoi formulation? Why? (5 points)
